@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Member Directory</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+background:#f4f4f4;
+}
+
+.card{
+background:white;
+margin:20px;
+padding:20px;
+border-radius:10px;
+box-shadow:0px 2px 5px gray;
+}
+
+</style>
+
+<script>
+
+var password;
+
+password = prompt("Enter Church Password:");
+
+if(password != "zionhill123")
+{
+window.location="index.html";
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h1>Member Directory</h1>
+
+<div class="card">
+
+<h3>Sample Members</h3>
+
+<p>
+
+Bob Dennison<br>
+(731) 555-1234<br><br>
+
+John Smith<br>
+(731) 555-4567<br><br>
+
+Mary Jones<br>
+(731) 555-7890
+
+</p>
+
+</div>
+
+
+<br>
+
+<a href="index.html">
+
+<button>Back Home</button>
+
+</a>
+
+</body>
+
+</html>
