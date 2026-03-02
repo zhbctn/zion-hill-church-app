@@ -1,1 +1,1 @@
-# zion-hill-church-app
+# zion-hill-app
