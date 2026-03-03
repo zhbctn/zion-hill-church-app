@@ -1,39 +1,46 @@
-import React, { useEffect, useState } from "react";
+<div id="announcements"></div>
 
-export default function Announcements() {
-  const [announcements, setAnnouncements] = useState([]);
+<script>
+const sheetURL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-REPLACE_THIS_WITH_YOURS/pub?output=csv";
 
-  useEffect(() => {
-    fetch("https://docs.google.com/spreadsheets/d/1b7bf0B0idhG2SJymtebBdZIkHuCbhOmYbeoUukcMxZI/pub?output=csv")
-      .then(res => res.text())
-      .then(text => {
-        const rows = text.split("\n").slice(1);
+fetch(sheetURL)
+.then(response => response.text())
+.then(data => {
 
-        const data = rows.map(row => {
-          const [title, message, date, active] = row.split(",");
-          return { title, message, date, active };
-        });
+    const rows = data.split("\n").slice(1);
 
-        setAnnouncements(data.filter(a => a.active === "TRUE"));
-      });
-  }, []);
+    let html = "";
 
-  return (
-    <div style={{ padding: 20 }}>
-      <h2>Announcements</h2>
+    rows.forEach(row => {
 
-      {announcements.map((a, i) => (
-        <div key={i} style={{
-          border: "1px solid #ccc",
-          padding: 15,
-          marginBottom: 10,
-          borderRadius: 10
-        }}>
-          <h3>{a.title}</h3>
-          <p>{a.message}</p>
-          <small>{a.date}</small>
-        </div>
-      ))}
-    </div>
-  );
-}
+        const cols = row.split(",");
+
+        const title = cols[0];
+        const message = cols[1];
+        const date = cols[2];
+        const active = cols[3];
+
+        if(active === "TRUE"){
+
+            html += `
+            <div style="
+            border:1px solid #ccc;
+            padding:15px;
+            margin:10px;
+            border-radius:10px;
+            background:#fafafa;
+            ">
+                <h3>${title}</h3>
+                <p>${message}</p>
+                <small>${date}</small>
+            </div>
+            `;
+        }
+
+    });
+
+    document.getElementById("announcements").innerHTML = html;
+
+});
+</script>
