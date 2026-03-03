@@ -1,68 +1,39 @@
-<!DOCTYPE html>
-<html>
+import React, { useEffect, useState } from "react";
 
-<head>
+export default function Announcements() {
+  const [announcements, setAnnouncements] = useState([]);
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  useEffect(() => {
+    fetch("https://docs.google.com/spreadsheets/d/1b7bf0B0idhG2SJymtebBdZIkHuCbhOmYbeoUukcMxZI/pub?output=csv")
+      .then(res => res.text())
+      .then(text => {
+        const rows = text.split("\n").slice(1);
 
-<title>Announcements</title>
+        const data = rows.map(row => {
+          const [title, message, date, active] = row.split(",");
+          return { title, message, date, active };
+        });
 
-<style>
+        setAnnouncements(data.filter(a => a.active === "TRUE"));
+      });
+  }, []);
 
-body{
-font-family:Arial;
-text-align:center;
-background:#f4f4f4;
+  return (
+    <div style={{ padding: 20 }}>
+      <h2>Announcements</h2>
+
+      {announcements.map((a, i) => (
+        <div key={i} style={{
+          border: "1px solid #ccc",
+          padding: 15,
+          marginBottom: 10,
+          borderRadius: 10
+        }}>
+          <h3>{a.title}</h3>
+          <p>{a.message}</p>
+          <small>{a.date}</small>
+        </div>
+      ))}
+    </div>
+  );
 }
-
-.card{
-background:white;
-margin:20px;
-padding:20px;
-border-radius:10px;
-box-shadow:0px 2px 5px gray;
-}
-
-button{
-padding:10px;
-margin-top:20px;
-font-size:16px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<h1>Announcements</h1>
-
-<div class="card">
-
-<h3>Welcome</h3>
-
-<p>Welcome to Zion Hill Baptist Church</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>Service Reminder</h3>
-
-<p>Sunday Service at 11:00 AM</p>
-
-</div>
-
-
-<br>
-
-<a href="index.html">
-
-<button>Back Home</button>
-
-</a>
-
-</body>
-
-</html>
