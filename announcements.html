@@ -1,46 +1,37 @@
 <div id="announcements"></div>
 
 <script>
-const sheetURL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-REPLACE_THIS_WITH_YOURS/pub?output=csv";
 
-fetch(sheetURL)
-.then(response => response.text())
+fetch("https://opensheet.elk.sh/1b7bf0B0idhG2SJymtebBdZIkHuCbhOmYbeoUukcMxZI/Sheet1")
+.then(res => res.json())
 .then(data => {
 
-    const rows = data.split("\n").slice(1);
+let output = "";
 
-    let html = "";
+data.forEach(row => {
 
-    rows.forEach(row => {
+output += `
+<div style="
+background:#f4f4f4;
+margin:10px;
+padding:15px;
+border-radius:10px;
+">
 
-        const cols = row.split(",");
+<b>${row.Date}</b><br>
+${row.Announcement}
 
-        const title = cols[0];
-        const message = cols[1];
-        const date = cols[2];
-        const active = cols[3];
-
-        if(active === "TRUE"){
-
-            html += `
-            <div style="
-            border:1px solid #ccc;
-            padding:15px;
-            margin:10px;
-            border-radius:10px;
-            background:#fafafa;
-            ">
-                <h3>${title}</h3>
-                <p>${message}</p>
-                <small>${date}</small>
-            </div>
-            `;
-        }
-
-    });
-
-    document.getElementById("announcements").innerHTML = html;
+</div>
+`;
 
 });
+
+document.getElementById("announcements").innerHTML = output;
+
+})
+.catch(err => {
+document.getElementById("announcements").innerHTML = "Unable to load announcements.";
+console.error(err);
+});
+
 </script>
